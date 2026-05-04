@@ -211,8 +211,9 @@
         <span class="credit-text">made by merzaa</span>
     </nav>
 
-    <audio id="vkg-music" loop>
-        <source src="vkg sound.mp3" type="audio/mpeg">
+    <!-- تم تعديل المسار هنا ليطابق ملفك بالضبط vkg sound.MP3 -->
+    <audio id="vkg-music" loop preload="auto">
+        <source src="vkg sound.MP3" type="audio/mpeg">
     </audio>
 
     <div class="audio-manager">
@@ -334,17 +335,19 @@
             });
         }
         
-        // Initialize with default neon color
         initParticles("#00f2ea");
 
         const root = document.querySelector(':root');
         const audio = document.getElementById('vkg-music');
 
         function startExperience() {
-            audio.play().catch(e => console.log("Audio play failed"));
-            audio.volume = 0.5;
             document.getElementById('welcome-overlay').classList.add('hide-overlay');
             document.body.classList.add('allow-scroll');
+            
+            if (audio) {
+                audio.volume = 0.5;
+                audio.play().catch(e => console.log("Audio play blocked", e));
+            }
         }
 
         function toggleMute() {
@@ -423,7 +426,6 @@
             root.style.setProperty('--neon', data.color);
             root.style.setProperty('--glow', `0 0 25px ${data.color}e6`);
             
-            // Update particles color to match member
             initParticles(data.color);
 
             document.getElementById('p-name').innerText = data.name;
@@ -450,7 +452,7 @@
 
         function closeProfile() {
             root.style.setProperty('--neon', '#00f2ea');
-            initParticles("#00f2ea"); // Reset particles to original color
+            initParticles("#00f2ea");
             const pg = document.getElementById('profile-page');
             pg.classList.remove('active');
             document.getElementById('main-site').classList.remove('blur-out'); 
