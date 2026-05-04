@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VKG CLAN | OFFICIAL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { 
+            --neon: #00f2ea; 
+            --bg: #050505; 
+            --glow: 0 0 25px rgba(0, 242, 234, 0.9); 
+        }
+        
+        html, body { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            overflow: hidden; 
+            background-color: #050505 !important;
+            background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; 
+        }
+
+        /* --- Welcome Overlay --- */
+        #welcome-overlay {
+            position: fixed; inset: 0; width: 100%; height: 100%;
+            background: #000; z-index: 999999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 1s ease, visibility 1s;
+        }
+        .welcome-box { text-align: center; }
+        .welcome-title {
+            font-size: 50px; color: var(--neon); letter-spacing: 10px;
+            margin-bottom: 30px; text-shadow: var(--glow);
+            animation: welcomeGlow 2s infinite alternate;
+        }
+        .enter-btn {
+            background: none; border: 2px solid var(--neon); color: var(--neon);
+            padding: 15px 50px; font-size: 20px; font-weight: bold; cursor: pointer;
+            letter-spacing: 5px; transition: 0.4s; position: relative; overflow: hidden;
+        }
+        .enter-btn:hover {
+            background: var(--neon); color: #000; box-shadow: var(--glow);
+            transform: scale(1.1);
+        }
+        @keyframes welcomeGlow {
+            from { opacity: 0.6; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .hide-overlay { opacity: 0; visibility: hidden; pointer-events: none; }
+        .allow-scroll { overflow-y: auto !important; }
+
+        /* --- Layout & Arts --- */
+        .top-nav {
+            position: fixed; top: 0; width: 100%; height: 60px;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center; z-index: 50000;
+            border-bottom: 1px solid #222;
+            gap: 20px;
+        }
+        .discord-btn {
+            color: #5865F2; text-decoration: none; font-weight: bold;
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 20px; border: 1px solid #5865F2; border-radius: 5px;
+            transition: 0.3s;
+        }
+        .discord-btn:hover { background: #5865F2; color: #fff; box-shadow: 0 0 20px #5865F2; }
+        
+        .credit-text {
+            color: rgba(255,255,255,0.3); font-size: 12px; letter-spacing: 1px; font-style: italic;
+        }
+
+        .audio-manager {
+            position: fixed; bottom: 20px; left: 20px; z-index: 60000;
+            background: rgba(10,10,10,0.9); border: 1px solid var(--neon);
+            padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px;
+            box-shadow: var(--glow);
+        }
+        .audio-manager button { background: none; border: none; color: var(--neon); cursor: pointer; font-size: 20px; }
+        #volume-slider { cursor: pointer; accent-color: var(--neon); width: 80px; }
+
+        /* --- New Interactive Background --- */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            background-color: #050505;
+        }
+
+        .side-art-container {
+            position: fixed; top: 50%;
+            display: flex; flex-direction: column; align-items: center;
+            z-index: 1; pointer-events: none; opacity: 0.7;
+        }
+        .container-left { left: 80px; transform: translateY(-50%); animation: luxuryPulseLeft 6s ease-in-out infinite; }
+        .container-right { right: 80px; transform: translateY(-50%) scaleX(-1); animation: luxuryPulseRight 6s ease-in-out infinite; }
+
+        @keyframes luxuryPulseLeft {
+            0%, 100% { transform: translateY(-50%) scale(1); filter: brightness(1.2) contrast(1.8) drop-shadow(0 0 5px var(--neon)); }
+            50% { transform: translateY(-53%) scale(1.02); filter: brightness(1.6) contrast(2) drop-shadow(0 0 30px var(--neon)); }
+        }
+        @keyframes luxuryPulseRight {
+            0%, 100% { transform: translateY(-50%) scaleX(-1) scale(1); filter: brightness(1.2) contrast(1.8) drop-shadow(0 0 5px var(--neon)); }
+            50% { transform: translateY(-53%) scaleX(-1) scale(1.02); filter: brightness(1.6) contrast(2) drop-shadow(0 0 30px var(--neon)); }
+        }
+
+        .side-art-container img { width: 380px; margin: -10px 0; }
+        .sword-img { width: 220px !important; }
+
+        /* --- الرموز الرونية --- */
+        .side-runes { position: fixed; top: 0; height: 100vh; width: 40px; z-index: 10000; pointer-events: none; overflow: hidden; }
+        .left-runes { left: 15px; } 
+        .right-runes { right: 15px; }
+        .rune-track { display: flex; flex-direction: column; align-items: center; }
+        
+        .right-runes .rune-track { animation: scrollUp 20s linear infinite; }
+        .left-runes .rune-track { animation: scrollDown 20s linear infinite; }
+
+        .rune-track span { font-size: 24px; color: var(--neon); padding: 15px 0; text-shadow: 0 0 10px var(--neon); font-weight: bold; font-family: 'Courier New', monospace; }
+        
+        @keyframes scrollUp { 
+            0% { transform: translateY(0); } 
+            100% { transform: translateY(-50%); } 
+        }
+        @keyframes scrollDown { 
+            0% { transform: translateY(-50%); } 
+            100% { transform: translateY(0); } 
+        }
+
+        #main-site { position: relative; z-index: 10; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transition: 0.8s; padding: 100px 0; }
+        .logo-box img { width: 280px; filter: drop-shadow(0 0 25px var(--neon)); }
+        .clan-title { color: var(--neon); font-size: 55px; font-weight: 900; letter-spacing: 15px; margin: 10px 0 40px 0; text-shadow: 0 0 25px var(--neon); }
+
+        .cards-wrapper { display: flex; flex-direction: column; gap: 40px; align-items: center; }
+
+        .player-card { 
+            display: flex; background: rgba(10,10,10,0.98); border: 1px solid #222; 
+            border-left: 5px solid var(--card-color); cursor: pointer; transition: 0.4s; 
+            width: 780px; height: 260px; overflow: hidden;
+        }
+        .player-card:hover { transform: translateY(-10px); box-shadow: 0 0 30px var(--card-color); border-color: var(--card-color); }
+        .img-box { width: 280px; height: 100%; overflow: hidden; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.6s; }
+        .player-card:hover .img-box img { filter: grayscale(0%); transform: scale(1.1); }
+        .info-box { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .info-box h2 { font-size: 55px; margin: 0; text-shadow: 0 0 15px var(--card-color); letter-spacing: 5px; }
+
+        #profile-page { 
+            position: fixed; inset: 0; z-index: 20000; 
+            display: none; align-items: center; justify-content: center; 
+            background: rgba(0,0,0,0.94); backdrop-filter: blur(15px);
+            opacity: 0; transition: opacity 0.5s ease;
+        }
+        #profile-page.active { display: flex; opacity: 1; }
+
+        .dashboard { 
+            display: grid; grid-template-columns: 320px 1fr 320px; gap: 20px; 
+            width: 95%; max-width: 1350px; 
+            transform: scale(0.8) translateY(50px); transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #profile-page.active .dashboard { transform: scale(1) translateY(0); }
+
+        .side-panel, .main-profile-card { 
+            background: rgba(12, 12, 12, 0.95); border: 1px solid #222; 
+            border-top: 3px solid var(--neon); padding: 25px; text-align: center;
+        }
+
+        .profile-img-circle { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--neon); margin: 0 auto 15px; overflow: hidden; box-shadow: var(--glow); }
+        .profile-img-circle img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+        .skills-table { width: 100%; margin: 20px 0; border-collapse: collapse; text-align: left; }
+        .skills-table td { padding: 10px; border-bottom: 1px solid #222; font-size: 14px; }
+        .social-links { margin-bottom: 20px; }
+        .social-links a { color: #fff; font-size: 26px; margin: 0 12px; transition: 0.3s; }
+        .social-links a:hover { color: var(--neon); text-shadow: var(--glow); }
+
+        .back-btn { background: none; border: 1px solid var(--neon); color: var(--neon); padding: 10px 40px; cursor: pointer; margin-top: 20px; font-weight: bold; letter-spacing: 2px; }
+        .back-btn:hover { background: var(--neon); color: #000; box-shadow: var(--glow); }
+        .blur-out { filter: blur(20px) scale(0.95); opacity: 0; pointer-events: none; }
+
+        @media (max-width: 768px) {
+            .side-art-container, .side-runes { display: none !important; }
+            .player-card { width: 90%; height: auto; flex-direction: column; }
+            .img-box { width: 100%; height: 200px; }
+            .info-box { padding: 20px; }
+            .info-box h2 { font-size: 35px; }
+            .clan-title { font-size: 30px; letter-spacing: 5px; }
+            .dashboard { grid-template-columns: 1fr; overflow-y: auto; max-height: 90vh; }
+            .side-panel { display: none; } 
+            #video-panel { display: block; } 
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <div id="welcome-overlay">
+        <div class="welcome-box">
+            <div class="welcome-title">WELCOME TO VKG CLAN</div>
+            <button class="enter-btn" onclick="startExperience()">ENTER SITE</button>
+        </div>
+    </div>
+
+    <nav class="top-nav">
+        <a href="https://discord.gg/YNFzfXE3K" target="_blank" class="discord-btn">
+            <i class="fab fa-discord"></i> VKG DISCORD SERVER
+        </a>
+        <span class="credit-text">made by merzaa</span>
+    </nav>
+
+    <audio id="vkg-music" loop>
+        <source src="vkg sound.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="audio-manager">
+        <button onclick="toggleMute()" id="mute-btn"><i class="fas fa-volume-up"></i></button>
+        <input type="range" id="volume-slider" min="0" max="100" value="50" oninput="setVolume(this.value)">
+    </div>
+
+    <div class="side-runes left-runes">
+        <div class="rune-track">
+            <span>ᚠ</span><span>ᚢ</span><span>ᚦ</span><span>ᚨ</span><span>ᚱ</span><span>ᚲ</span><span>ᚷ</span><span>ᚹ</span><span>ᚺ</span><span>ᚾ</span><span>ᛁ</span><span>ᛃ</span><span>ᛇ</span><span>ᛈ</span><span>ᛉ</span><span>ᛊ</span><span>ᛏ</span><span>ᛒ</span><span>ᛖ</span><span>ᛗ</span><span>ᛚ</span><span>ᛝ</span><span>ᛟ</span><span>ᛞ</span>
+            <span>ᚠ</span><span>ᚢ</span><span>ᚦ</span><span>ᚨ</span><span>ᚱ</span><span>ᚲ</span><span>ᚷ</span><span>ᚹ</span><span>ᚺ</span><span>ᚾ</span><span>ᛁ</span><span>ᛃ</span><span>ᛇ</span><span>ᛈ</span><span>ᛉ</span><span>ᛊ</span><span>ᛏ</span><span>ᛒ</span><span>ᛖ</span><span>ᛗ</span><span>ᛚ</span><span>ᛝ</span><span>ᛟ</span><span>ᛞ</span>
+        </div>
+    </div>
+    
+    <div class="side-runes right-runes">
+        <div class="rune-track">
+            <span>ᛏ</span><span>ᛒ</span><span>ᛖ</span><span>ᛗ</span><span>ᛚ</span><span>ᛝ</span><span>ᛟ</span><span>ᛞ</span><span>ᚠ</span><span>ᚢ</span><span>ᚦ</span><span>ᚨ</span><span>ᚱ</span><span>ᚲ</span><span>ᚷ</span><span>ᚹ</span><span>ᚺ</span><span>ᚾ</span><span>ᛁ</span><span>ᛃ</span><span>ᛇ</span><span>ᛈ</span><span>ᛉ</span><span>ᛊ</span>
+            <span>ᛏ</span><span>ᛒ</span><span>ᛖ</span><span>ᛗ</span><span>ᛚ</span><span>ᛝ</span><span>ᛟ</span><span>ᛞ</span><span>ᚠ</span><span>ᚢ</span><span>ᚦ</span><span>ᚨ</span><span>ᚱ</span><span>ᚲ</span><span>ᚷ</span><span>ᚹ</span><span>ᚺ</span><span>ᚾ</span><span>ᛁ</span><span>ᛃ</span><span>ᛇ</span><span>ᛈ</span><span>ᛉ</span><span>ᛊ</span>
+        </div>
+    </div>
+
+    <div class="side-art-container container-left">
+        <img src="horse.png">
+        <img src="sword.png" class="sword-img">
+    </div>
+
+    <div class="side-art-container container-right">
+        <img src="horse.png">
+        <img src="sword.png" class="sword-img">
+    </div>
+
+    <div id="main-site">
+        <div class="logo-box"><img src="logo.png"></div>
+        <div class="clan-title">VKG CLAN</div>
+        
+        <div class="cards-wrapper">
+            <div class="player-card" style="--card-color: #00f2ea;" onclick="openProfile('ragnar')">
+                <div class="img-box"><img src="profile.jpg"></div>
+                <div class="info-box"><span style="color:#00f2ea; font-weight:bold;">CLAN LEADER</span><h2>RAGNAR</h2><div style="border:1px solid #00f2ea; padding:8px 25px; margin-top:15px; color:#00f2ea;">VIEW PROFILE</div></div>
+            </div>
+
+            <div class="player-card" style="--card-color: #39ff14;" onclick="openProfile('cobra')">
+                <div class="img-box"><img src="cobra.png"></div>
+                <div class="info-box"><span style="color:#39ff14; font-weight:bold;">CLAN ORGANIZER</span><h2>COBRA</h2><div style="border:1px solid #39ff14; padding:8px 25px; margin-top:15px; color:#39ff14;">VIEW PROFILE</div></div>
+            </div>
+
+            <div class="player-card" style="--card-color: #e0e0e0;" onclick="openProfile('jumbo')">
+                <div class="img-box"><img src="jumbo.jpg"></div>
+                <div class="info-box"><span style="color:#e0e0e0; font-weight:bold;">CLAN JOKER</span><h2>JUMBO</h2><div style="border:1px solid #e0e0e0; padding:8px 25px; margin-top:15px; color:#e0e0e0;">VIEW PROFILE</div></div>
+            </div>
+
+            <div class="player-card" style="--card-color: #6B8E23;" onclick="openProfile('merzaa')">
+                <div class="img-box"><img src="merza.png"></div>
+                <div class="info-box"><span style="color:#6B8E23; font-weight:bold;">CLAN PROGRAMMER</span><h2>MERZAA</h2><div style="border:1px solid #6B8E23; padding:8px 25px; margin-top:15px; color:#6B8E23;">VIEW PROFILE</div></div>
+            </div>
+
+            <div class="player-card" style="--card-color: #f39c12;" onclick="openProfile('77')">
+                <div class="img-box"><img src="77.jpg"></div>
+                <div class="info-box"><span style="color:#f39c12; font-weight:bold;">CLAN ELITE</span><h2>7 7</h2><div style="border:1px solid #f39c12; padding:8px 25px; margin-top:15px; color:#f39c12;">VIEW PROFILE</div></div>
+            </div>
+
+            <div class="player-card" style="--card-color: #007bff;" onclick="openProfile('hotoo')">
+                <div class="img-box"><img src="hotoo.jpg"></div>
+                <div class="info-box"><span style="color:#007bff; font-weight:bold;">CLAN ELITE</span><h2>HOTOO</h2><div style="border:1px solid #007bff; padding:8px 25px; margin-top:15px; color:#007bff;">VIEW PROFILE</div></div>
+            </div>
+
+            <div class="player-card" style="--card-color: #FFD700;" onclick="openProfile('potato')">
+                <div class="img-box"><img src="potato.jpg"></div>
+                <div class="info-box"><span style="color:#FFD700; font-weight:bold;">CLAN MEMBER</span><h2>POTATO</h2><div style="border:1px solid #FFD700; padding:8px 25px; margin-top:15px; color:#FFD700;">VIEW PROFILE</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="profile-page">
+        <div class="dashboard">
+            <div class="side-panel">
+                <p style="color:var(--neon); font-weight:bold; letter-spacing:2px;">STEAM STATUS</p>
+                <div id="steam-status" style="height:180px; display:flex; align-items:center; justify-content:center;"></div>
+            </div>
+
+            <div class="main-profile-card">
+                <div class="profile-img-circle"><img src="" id="p-img"></div>
+                <h2 id="p-name" style="margin:0; font-size: 40px;"></h2>
+                <p id="p-rank" style="color:var(--neon); letter-spacing:3px; font-weight:bold; margin-bottom: 20px;"></p>
+                <div class="social-links" id="p-social"></div>
+                <table class="skills-table" id="p-skills"></table>
+                <button class="back-btn" onclick="closeProfile()">BACK TO HOME</button>
+            </div>
+
+            <div class="side-panel" id="video-panel">
+                <p style="color:var(--neon); font-weight:bold; letter-spacing:2px;">LATEST FEED</p>
+                <div id="p-video" style="height:180px; background:#000; border: 1px solid #222;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        /* --- Particles Configuration --- */
+        function initParticles(color) {
+            particlesJS("particles-js", {
+                "particles": {
+                    "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": color },
+                    "shape": { "type": "circle" },
+                    "opacity": { "value": 0.5, "random": false },
+                    "size": { "value": 3, "random": true },
+                    "line_linked": { "enable": true, "distance": 150, "color": color, "opacity": 0.4, "width": 1 },
+                    "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                    "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } }
+                },
+                "retina_detect": true
+            });
+        }
+        
+        // Initialize with default neon color
+        initParticles("#00f2ea");
+
+        const root = document.querySelector(':root');
+        const audio = document.getElementById('vkg-music');
+
+        function startExperience() {
+            audio.play().catch(e => console.log("Audio play failed"));
+            audio.volume = 0.5;
+            document.getElementById('welcome-overlay').classList.add('hide-overlay');
+            document.body.classList.add('allow-scroll');
+        }
+
+        function toggleMute() {
+            if (audio.muted) {
+                audio.muted = false;
+                document.getElementById('mute-btn').innerHTML = '<i class="fas fa-volume-up"></i>';
+            } else {
+                audio.muted = true;
+                document.getElementById('mute-btn').innerHTML = '<i class="fas fa-volume-mute"></i>';
+            }
+        }
+
+        function setVolume(val) {
+            audio.volume = val / 100;
+            document.getElementById('mute-btn').innerHTML = val == 0 ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+        }
+
+        const yes = '<i class="fas fa-check" style="color:#00ff88;"></i>';
+        const no = '<i class="fas fa-times" style="color:#ff3131;"></i>';
+        const half = '<i class="fas fa-minus" style="color:#ffbd21;"></i>';
+
+        const members = {
+            potato: {
+                name: "POTATO", rank: "CLAN MEMBER", color: "#FFD700", img: "potato.jpg",
+                steam: "https://steamsignature.com/status/english/76561199801817737.png",
+                video: "",
+                social: `<a href="https://www.instagram.com/gf_029/" target="_blank"><i class="fab fa-instagram"></i></a><a href="https://steamcommunity.com/profiles/76561199801817737/" target="_blank"><i class="fab fa-steam"></i></a>`,
+                skills: `<tr><td>FIGHTER</td><td style="text-align:right;">${half}</td></tr><tr><td>BUILDER</td><td style="text-align:right;">${yes}</td></tr><tr><td>FARMER</td><td style="text-align:right;">${yes}</td></tr><tr><td>RAIDER</td><td style="text-align:right;">${yes}</td></tr><tr><td>SNIPER</td><td style="text-align:right;">${yes}</td></tr>`
+            },
+            hotoo: {
+                name: "HOTOO", rank: "CLAN ELITE", color: "#007bff", img: "hotoo.jpg",
+                steam: "https://steamsignature.com/status/english/76561199147571597.png",
+                video: "https://www.youtube.com/embed?listType=user_uploads&list=HOTOO250",
+                social: `<a href="https://www.instagram.com/h_ooo_to" target="_blank"><i class="fab fa-instagram"></i></a><a href="https://www.youtube.com/@HOTOO250" target="_blank"><i class="fab fa-youtube"></i></a><a href="https://kick.com/h0too250" target="_blank"><i class="fas fa-bolt"></i></a><a href="https://steamcommunity.com/id/HOTOO-_-122/" target="_blank"><i class="fab fa-steam"></i></a>`,
+                skills: `<tr><td>FIGHTER</td><td style="text-align:right;">${yes}</td></tr><tr><td>BUILDER</td><td style="text-align:right;">${no}</td></tr><tr><td>FARMER</td><td style="text-align:right;">${yes}</td></tr><tr><td>RAIDER</td><td style="text-align:right;">${yes}</td></tr><tr><td>SNIPER</td><td style="text-align:right;">${half}</td></tr>`
+            },
+            ragnar: {
+                name: "RAGNAR", rank: "CLAN LEADER", color: "#00f2ea", img: "profile.jpg",
+                steam: "https://steamsignature.com/status/english/76561199086276131.png",
+                video: "https://www.youtube.com/embed/videoseries?list=UUra_gnar333",
+                social: `<a href="https://www.instagram.com/r_agn1" target="_blank"><i class="fab fa-instagram"></i></a><a href="https://youtube.com/@ra_gnar333" target="_blank"><i class="fab fa-youtube"></i></a><a href="https://steamcommunity.com/profiles/76561199086276131/" target="_blank"><i class="fab fa-steam"></i></a>`,
+                skills: `<tr><td>FIGHTER</td><td style="text-align:right;">${yes}</td></tr><tr><td>BUILDER</td><td style="text-align:right;">${yes}</td></tr><tr><td>FARMER</td><td style="text-align:right;">${yes}</td></tr><tr><td>RAIDER</td><td style="text-align:right;">${yes}</td></tr><tr><td>SNIPER</td><td style="text-align:right;">${half}</td></tr>`
+            },
+            cobra: {
+                name: "COBRA", rank: "CLAN ORGANIZER", color: "#39ff14", img: "cobra.png",
+                steam: "https://steamsignature.com/status/english/76561199659517356.png",
+                video: "https://www.youtube.com/embed/videoseries?list=UUcobra_e",
+                social: `<a href="https://www.instagram.com/_haso9_" target="_blank"><i class="fab fa-instagram"></i></a><a href="https://youtube.com/@cobra_e" target="_blank"><i class="fab fa-youtube"></i></a><a href="https://kick.com/cobra-vkg" target="_blank"><i class="fas fa-bolt"></i></a><a href="https://www.tiktok.com/@cobra_vkg" target="_blank"><i class="fab fa-tiktok"></i></a><a href="https://steamcommunity.com/profiles/76561199659517356/" target="_blank"><i class="fab fa-steam"></i></a>`,
+                skills: `<tr><td>FIGHTER</td><td style="text-align:right;">${yes}</td></tr><tr><td>BUILDER</td><td style="text-align:right;">${no}</td></tr><tr><td>FARMER</td><td style="text-align:right;">${yes}</td></tr><tr><td>RAIDER</td><td style="text-align:right;">${yes}</td></tr><tr><td>SNIPER</td><td style="text-align:right;">${yes}</td></tr>`
+            },
+            jumbo: {
+                name: "JUMBO", rank: "CLAN JOKER", color: "#e0e0e0", img: "jumbo.jpg",
+                steam: "https://steamsignature.com/status/english/76561199519822172.png",
+                video: "",
+                social: `<a href="https://www.snapchat.com/add/gr8_ali" target="_blank"><i class="fab fa-snapchat"></i></a><a href="https://www.instagram.com/_gr8ali" target="_blank"><i class="fab fa-instagram"></i></a><a href="https://steamcommunity.com/profiles/76561199519822172/" target="_blank"><i class="fab fa-steam"></i></a>`,
+                skills: `<tr><td>FIGHTER</td><td style="text-align:right;">${yes}</td></tr><tr><td>BUILDER</td><td style="text-align:right;">${yes}</td></tr><tr><td>FARMER</td><td style="text-align:right;">${yes}</td></tr><tr><td>RAIDER</td><td style="text-align:right;">${yes}</td></tr><tr><td>SNIPER</td><td style="text-align:right;">${yes}</td></tr>`
+            },
+            merzaa: {
+                name: "MERZAA", rank: "CLAN PROGRAMMER", color: "#6B8E23", img: "merza.png",
+                steam: "https://steamsignature.com/status/english/76561198818556358.png",
+                video: "",
+                social: `<a href="https://www.instagram.com/g77vw" target="_blank"><i class="fab fa-instagram"></i></a><a href="https://steamcommunity.com/id/Merzaaaa/" target="_blank"><i class="fab fa-steam"></i></a>`,
+                skills: `<tr><td>FIGHTER</td><td style="text-align:right;">${yes}</td></tr><tr><td>BUILDER</td><td style="text-align:right;">${no}</td></tr><tr><td>FARMER</td><td style="text-align:right;">${yes}</td></tr><tr><td>RAIDER</td><td style="text-align:right;">${half}</td></tr><tr><td>SNIPER</td><td style="text-align:right;">${yes}</td></tr>`
+            },
+            77: {
+                name: "7 7", rank: "CLAN ELITE", color: "#f39c12", img: "77.jpg",
+                steam: "https://steamsignature.com/status/english/76561198854089789.png", 
+                video: "", 
+                social: `<a href="https://www.snapchat.com/add/omar_lll98" target="_blank"><i class="fab fa-snapchat"></i></a><a href="https://www.tiktok.com/@12omrjmil0" target="_blank"><i class="fab fa-tiktok"></i></a><a href="https://steamcommunity.com/profiles/76561198854089789/" target="_blank"><i class="fab fa-steam"></i></a>`,
+                skills: `<tr><td>FIGHTER</td><td style="text-align:right;">${yes}</td></tr><tr><td>BUILDER</td><td style="text-align:right;">${half}</td></tr><tr><td>FARMER</td><td style="text-align:right;">${yes}</td></tr><tr><td>RAIDER</td><td style="text-align:right;">${yes}</td></tr><tr><td>SNIPER</td><td style="text-align:right;">${half}</td></tr>`
+            }
+        };
+
+        function openProfile(id) {
+            const data = members[id];
+            root.style.setProperty('--neon', data.color);
+            root.style.setProperty('--glow', `0 0 25px ${data.color}e6`);
+            
+            // Update particles color to match member
+            initParticles(data.color);
+
+            document.getElementById('p-name').innerText = data.name;
+            document.getElementById('p-rank').innerText = data.rank;
+            document.getElementById('p-img').src = data.img;
+            document.getElementById('steam-status').innerHTML = data.steam ? `<img src="${data.steam}" style="max-width:100%;">` : "NO STEAM LINKED";
+            
+            if(!data.video || data.video === "") {
+                document.getElementById('video-panel').style.display = "none";
+                document.querySelector('.dashboard').style.gridTemplateColumns = "320px 1fr";
+            } else {
+                document.getElementById('video-panel').style.display = "block";
+                document.querySelector('.dashboard').style.gridTemplateColumns = "320px 1fr 320px";
+                document.getElementById('p-video').innerHTML = `<iframe width="100%" height="100%" src="${data.video}" frameborder="0" allowfullscreen></iframe>`;
+            }
+
+            document.getElementById('p-social').innerHTML = data.social;
+            document.getElementById('p-skills').innerHTML = data.skills;
+            const pg = document.getElementById('profile-page');
+            pg.style.display = 'flex';
+            setTimeout(() => pg.classList.add('active'), 10);
+            document.getElementById('main-site').classList.add('blur-out');
+        }
+
+        function closeProfile() {
+            root.style.setProperty('--neon', '#00f2ea');
+            initParticles("#00f2ea"); // Reset particles to original color
+            const pg = document.getElementById('profile-page');
+            pg.classList.remove('active');
+            document.getElementById('main-site').classList.remove('blur-out'); 
+            setTimeout(() => pg.style.display = 'none', 500);
+        }
+    </script>
+</body>
+</html>
